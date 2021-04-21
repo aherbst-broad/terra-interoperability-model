@@ -24,7 +24,7 @@ jobs:
           cp -R src/imports/ releases/v${{ steps.next_version.outputs.version }}
           cp -R src/terra-core/ releases/v${{ steps.next_version.outputs.version }}
           git add .
-          git commit -m 'Releasing version ${{ steps.next_version.outputs.version }}
+          git commit -m 'Releasing version ${{ steps.next_version.outputs.version }}'
           git push
           echo ::set-output name=sha::$(git rev-parse HEAD)
       - uses: zwaldowski/semver-release-action@v1
