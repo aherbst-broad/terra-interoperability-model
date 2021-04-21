@@ -23,6 +23,8 @@ jobs:
           mkdir releases/v${{ steps.next_version.outputs.version }}
           cp -R src/imports/ releases/v${{ steps.next_version.outputs.version }}
           cp -R src/terra-core/ releases/v${{ steps.next_version.outputs.version }}
+          git config user.name "TIM Release Bot"
+          git config user.email "<>>"
           git add .
           git commit -m 'Releasing version ${{ steps.next_version.outputs.version }}'
           git push
