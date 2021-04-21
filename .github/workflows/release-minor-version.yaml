@@ -18,7 +18,7 @@ jobs:
           prefix: v
       - name: Echo Next Tag
         run: echo "${{ steps.next_version.outputs.version }}"
-      - name Make Release Dir
+      - name: Make Release Dir
         run: |
           mkdir releases/v${{ steps.next_version.outputs.version }}
           cp -R src/imports/ releases/v${{ steps.next_version.outputs.version }}
