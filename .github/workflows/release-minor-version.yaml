@@ -9,9 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Compute Next Tag
-        uses: hennejg/github-tag-action@v4.2.4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          dry_run: true
+        id: next_version
+        uses: zwaldowski/semver-release-action@v2
+        bump: minor
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        dry_run: true
+        prefix: v
+
       - name: Echo Next Tag
-        run: echo "The next tag is ${{ steps.compute-next-tag.outputs.tag }}"
+        run: echo "${{ steps.next_version.outputs.version }}"
