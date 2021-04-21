@@ -1,0 +1,8 @@
+name: Release Minor Version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release-minor-version:
+    runs-on: ubuntu-latest
