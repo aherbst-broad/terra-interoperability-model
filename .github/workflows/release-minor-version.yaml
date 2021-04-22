@@ -27,7 +27,8 @@ jobs:
           dry_run: true
           bump: minor
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Update release dir
         run: |
           # TODO <-= this should be the _current_ major version
