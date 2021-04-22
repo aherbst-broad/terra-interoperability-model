@@ -8,16 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Compute Next Tag
-        id: next_version
-        uses: zwaldowski/semver-release-action@v2
-        with:
-          bump: minor
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          dry_run: true
-          prefix: v
+      - name: Get Previous tag
+        id: previous-tag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Echo Next Tag
-        run: echo "${{ steps.next_version.outputs.version_tag }}"
+        run: echo "${{ steps.previous-tag.outputs.tagg }}"
 #      - name: Make Release Dir
 #        run: |
 #
