@@ -44,7 +44,7 @@ jobs:
         if: success()
         id: slack # IMPORTANT: reference this step ID value in future Slack steps
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_BOT_TOKEN: abdcef
         uses: voxmedia/github-action-slack-notify-build@v1
         with:
           channel: arh_testing_ingest
