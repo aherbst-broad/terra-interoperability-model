@@ -1,3 +1,5 @@
+## Releases a new minor version of the Terra Interoperability Model
+
 name: Release Minor Version
 
 on:
@@ -15,7 +17,6 @@ jobs:
         uses: WyriHaximus/github-action-get-previous-tag@v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - run: echo "${{ steps.previous_tag.outputs.tag }}"
       - name: Parse current version
         id: parse_current_tag
         uses: booxmedialtd/ws-action-parse-semver@v1
@@ -39,5 +40,14 @@ jobs:
           git commit -m 'Releasing version ${{ steps.next_tag.outputs.version }}' || true
           git tag ${{ steps.next_tag.outputs.version }}
           git push origin ${{ steps.next_tag.outputs.version }}
-
+      - name: Notify slack success
+        if: success()
+        id: slack # IMPORTANT: reference this step ID value in future Slack steps
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: arh_testing_ingest
+          status: SUCCESS
+          color: good
 
