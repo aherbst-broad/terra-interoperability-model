@@ -19,7 +19,7 @@ jobs:
         id: semver_parser
         uses: booxmedialtd/ws-action-parse-semver@v1
         with:
-          input_string: '${{ steps.previous-tag.outputs.version }}'
+          input_string: "${{ steps.previous-tag.outputs.version }}"
       - run: echo "${{ steps.semver_parser.outputs.major }} ${{ steps.semver_parser.outputs.minor }} ${{ steps.semver_parser.outputs.patch }}"
 #      - name: Update release dir
 #        run: |
