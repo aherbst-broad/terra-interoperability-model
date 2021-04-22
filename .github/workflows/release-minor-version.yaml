@@ -41,7 +41,7 @@ jobs:
           git tag ${{ steps.next_tag.outputs.version }}
           git push origin ${{ steps.next_tag.outputs.version }}
       - name: Notify slack success
-        if: success()
+       #s if: success()
         id: slack # IMPORTANT: reference this step ID value in future Slack steps
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
