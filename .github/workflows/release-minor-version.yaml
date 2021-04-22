@@ -21,19 +21,25 @@ jobs:
         uses: booxmedialtd/ws-action-parse-semver@v1
         with:
           input_string: ${{ steps.previous-tag.outputs.tag }}
-      - run: echo "${{ steps.semver_parser.outputs.major }} ${{ steps.semver_parser.outputs.minor }} ${{ steps.semver_parser.outputs.patch }}"
-#      - name: Update release dir
-#        run: |
-#          # TODO <-= this should be the _current_ major version
-#          mkdir releases/v${{ steps.next_version.outputs.version }}
-#          cp -R src/imports/ releases/v${{ steps.previous-tag.outputs.version }}
-#          cp -R src/terra-core/ releases/v${{ steps.previous-tag.outputs.version }}
-#          git config user.name "TIM Release Bot"
-#          git config user.email "<>"
-#          git add .
-#          git commit -m 'Releasing version ${{ steps.next_version.outputs.version }}'
-#          git push
-#          echo ::set-output name=sha::$(git rev-parse HEAD)
+      - name: 'Get next minor version'
+        id: next_version
+        uses: "WyriHaximus/github-action-next-semvers@v1"
+        with:
+          version: ${{ steps.pervious-tag.outputs.tag }}
+      - name: Update release dir
+        run: |
+          # TODO <-= this should be the _current_ major version
+          cp -R src/imports/ releases/v${{ steps.semver_parser.outputs.major }}.0
+          cp -R src/terra-core/ releases/v${{ steps.semver_parser.outputs.major }}.0
+          git config user.name "TIM Release Bot"
+          git config user.email "<>"
+          git add .
+          git commit -m 'Releasing version ${{ steps.next_version.outputs.tag }}'
+          git push
+          git tag v${{ steps.next_version.outputs.tag }}
+          git push v${{ steps.next_version.outputs.tag }}
+          echo ::set-output name=sha::$(git rev-parse HEAD)
+
 #      - uses: zwaldowski/semver-release-action@v1
 #        env:
 #          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
