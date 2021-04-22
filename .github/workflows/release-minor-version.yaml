@@ -32,8 +32,8 @@ jobs:
       - name: Update release dir
         run: |
           # TODO <-= this should be the _current_ major version
-          cp -R src/imports/ releases/v${{ steps.semver_parser.outputs.major }}.0
-          cp -R src/terra-core/ releases/v${{ steps.semver_parser.outputs.major }}.0
+          cp -R src/imports/ releases/v${{ steps.semver_parser.outputs.major }}
+          cp -R src/terra-core/ releases/v${{ steps.semver_parser.outputs.major }}
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add .
