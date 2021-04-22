@@ -14,7 +14,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Echo Next Tag
-        run: echo "${{ steps.previous-tag.outputs.tagg }}"
+        run: echo "${{ steps.previous-tag.outputs.tag }}"
 #      - name: Make Release Dir
 #        run: |
 #
