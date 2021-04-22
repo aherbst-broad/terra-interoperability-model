@@ -1,5 +1,3 @@
-## Releases a new minor version of the Terra Interoperability Model
-
 name: Release Minor Version
 
 on:
@@ -17,12 +15,13 @@ jobs:
         uses: WyriHaximus/github-action-get-previous-tag@v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Parse current version
+      - name: Parse current tag
         id: parse_current_tag
         uses: booxmedialtd/ws-action-parse-semver@v1
         with:
           input_string: ${{ steps.current_tag.outputs.tag }}
-      - id: next_tag
+      - name: Get next tag
+        id: next_tag
         uses: zwaldowski/semver-release-action@v1
         with:
           dry_run: true
@@ -30,7 +29,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      - name: Update release dir
+      - name: Update release dir and push tag
         run: |
           cp -R src/imports/ releases/v${{ steps.parse_current_tag.outputs.major }}
           cp -R src/terra-core/ releases/v${{ steps.parse_current_tag.outputs.major }}
