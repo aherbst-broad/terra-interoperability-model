@@ -21,11 +21,13 @@ jobs:
         uses: booxmedialtd/ws-action-parse-semver@v1
         with:
           input_string: ${{ steps.previous_tag.outputs.tag }}
-      - name: 'Get next minor version'
-        id: next_version
-        uses: "WyriHaximus/github-action-next-semvers@v1"
+      - id: next_version
+        uses: zwaldowski/semver-release-action@v1
         with:
-          version: ${{ steps.previous_tag.outputs.tag }}
+          dry_run: true
+          bump: minor
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Update release dir
         run: |
           # TODO <-= this should be the _current_ major version
@@ -35,9 +37,8 @@ jobs:
           git config user.email "<>"
           git add .
           git commit -m 'Releasing version ${{ steps.next_version.outputs.tag }}'
-          git tag v${{ steps.next_version.outputs.major }}.${{ steps.next_version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
-          git push v${{ steps.next_version.outputs.major }}.${{ steps.next_version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
-          echo ::set-output name=sha::$(git rev-parse HEAD)
+          git tag ${{ steps.next_version.outputs.next_version }}
+          git push ${{ steps.next_version.outputs.next_version }}
 
 #      - uses: zwaldowski/semver-release-action@v1
 #        env:
