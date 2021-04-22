@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # all tags + history
       - name: Get Previous tag
         id: previous-tag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
