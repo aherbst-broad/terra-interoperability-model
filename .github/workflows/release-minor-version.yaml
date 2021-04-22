@@ -37,7 +37,7 @@ jobs:
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add .
-          git commit -m 'Releasing version ${{ steps.next_version.outputs.tag }}'
+          git commit -m 'Releasing version ${{ steps.next_version.outputs.tag }}' || true
           git tag ${{ steps.next_version.outputs.version_tag }}
           git push ${{ steps.next_version.outputs.version_tag }}
 
