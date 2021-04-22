@@ -10,18 +10,18 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # all tags + history
-      - name: Get previous tag
-        id: previous_tag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      - name: Get current tag
+        id: current_tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - run: echo "${{ steps.previous_tag.outputs.tag }}"
-      - name: Parse semver string
-        id: semver_parser
+      - name: Parse current version
+        id: parse_current_tag
         uses: booxmedialtd/ws-action-parse-semver@v1
         with:
-          input_string: ${{ steps.previous_tag.outputs.tag }}
-      - id: next_version
+          input_string: ${{ steps.current_tag.outputs.tag }}
+      - id: next_tag
         uses: zwaldowski/semver-release-action@v1
         with:
           dry_run: true
@@ -31,24 +31,13 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Update release dir
         run: |
-          # TODO <-= this should be the _current_ major version
-          cp -R src/imports/ releases/v${{ steps.semver_parser.outputs.major }}
-          cp -R src/terra-core/ releases/v${{ steps.semver_parser.outputs.major }}
+          cp -R src/imports/ releases/v${{ steps.parse_current_tag.outputs.major }}
+          cp -R src/terra-core/ releases/v${{ steps.parse_current_tag.outputs.major }}
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add .
-          git commit -m 'Releasing version ${{ steps.next_version.outputs.version }}' || true
-          git tag ${{ steps.next_version.outputs.version }}
-          git push origin ${{ steps.next_version.outputs.version }}
-
-#      - uses: zwaldowski/semver-release-action@v1
-#        env:
-#          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-#        with:
-#          bump: minor
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          sha: ${{ steps.git_commit.outputs.sha }}
-#          prefix: v
-#
+          git commit -m 'Releasing version ${{ steps.next_tag.outputs.version }}' || true
+          git tag ${{ steps.next_tag.outputs.version }}
+          git push origin ${{ steps.next_tag.outputs.version }}
 
 
