@@ -10,20 +10,23 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # all tags + history
-      - name: Get Previous tag
+      - name: Get previous tag
         id: previous-tag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Echo Next Tag
-        run: echo "${{ steps.previous-tag.outputs.tag }}"
-#      - name: Make Release Dir
+      - name: Parse semver string
+        id: semver_parser
+        uses: booxmedialtd/ws-action-parse-semver@v1
+        with:
+          input_string: '${{ steps.previous-tag.outputs.version }}'
+      - run: echo "${{ steps.semver_parser.outputs.major }} ${{ steps.semver_parser.outputs.minor }} ${{ steps.semver_parser.outputs.patch }}"
+#      - name: Update release dir
 #        run: |
-#
 #          # TODO <-= this should be the _current_ major version
 #          mkdir releases/v${{ steps.next_version.outputs.version }}
-#          cp -R src/imports/ releases/v${{ steps.next_version.outputs.version }}
-#          cp -R src/terra-core/ releases/v${{ steps.next_version.outputs.version }}
+#          cp -R src/imports/ releases/v${{ steps.previous-tag.outputs.version }}
+#          cp -R src/terra-core/ releases/v${{ steps.previous-tag.outputs.version }}
 #          git config user.name "TIM Release Bot"
 #          git config user.email "<>"
 #          git add .
