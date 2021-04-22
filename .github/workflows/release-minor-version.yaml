@@ -36,8 +36,8 @@ jobs:
           git add .
           git commit -m 'Releasing version ${{ steps.next_version.outputs.tag }}'
           git push
-          git tag v${{ steps.next_version.outputs.tag }}
-          git push v${{ steps.next_version.outputs.tag }}
+          git tag v${{ steps.next_version.outputs.major }}.${{ steps.next_version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
+          git push v${{ steps.next_version.outputs.major }}.${{ steps.next_version.outputs.minor }}.${{ steps.next_version.outputs.patch }}
           echo ::set-output name=sha::$(git rev-parse HEAD)
 
 #      - uses: zwaldowski/semver-release-action@v1
