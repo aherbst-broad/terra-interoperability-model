@@ -31,9 +31,9 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Update release dir and push tag
         run: |
-          mkdir releases/v${{ steps.next_tag.outputs.major }}
-          cp -R src/imports/ releases/v${{ steps.next_tag.outputs.major }}
-          cp -R src/terra-core/ releases/v${{ steps.next_tag.outputs.major }}
+          mkdir releases/v${{ steps.next_tag.outputs.version }}
+          cp -R src/imports/ releases/v${{ steps.next_tag.outputs.version }}
+          cp -R src/terra-core/ releases/v${{ steps.next_tag.outputs.version }}
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add .
