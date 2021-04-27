@@ -37,9 +37,10 @@ jobs:
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add releases/v${{ steps.next_tag.outputs.version }}/*
-          git commit -a -m 'Releasing version ${{ steps.next_tag.outputs.version }}' || true
+          git commit -a -m 'Updating release'
           git push origin master
           git tag ${{ steps.next_tag.outputs.version }}
+          git commit -m 'Releasing version ${{ steps.next_tag.outputs.version }}' || true
           git push origin ${{ steps.next_tag.outputs.version }}
       - name: Notify slack success
         if: success()
