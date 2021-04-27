@@ -32,7 +32,7 @@ jobs:
       - name: Trim tag for release dir
         id: trim_tag
         run: |
-            trimmed_tag=$(echo ${{ steps.next_tag.outputs.version }} | cut -f1 -d'.'
+            trimmed_tag=$(echo ${{ steps.next_tag.outputs.version }} | cut -f1 -d'.')
             echo "::set-output name=trimmed_tag::$trimmed_tag"
       - name: Update release dir and push tag
         run: |
