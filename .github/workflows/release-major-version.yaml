@@ -29,14 +29,19 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Trim tag for release dir
+        id: trim_tag
+        run: |
+            trimmed_tag=$(echo ${{ steps.next_tag.outputs.version }} | cut -f1 -d'.'
+            echo "::set-output name=trimmed_tag::$trimmed_tag"
       - name: Update release dir and push tag
         run: |
-          mkdir releases/v${{ steps.next_tag.outputs.version }}
-          cp -R src/imports/ releases/v${{ steps.next_tag.outputs.version }}
-          cp -R src/terra-core/ releases/v${{ steps.next_tag.outputs.version }}
+          mkdir releases/v${{ steps.trim_tag.outputs.trimmed_tag }}
+          cp -R src/imports/ releases/v${{ steps.trim_tag.outputs.trimmed_tag }}
+          cp -R src/terra-core/ releases/v${{ steps.trim_tag.outputs.trimmed_tag }}
           git config user.name "TIM Release Bot"
           git config user.email "<>"
-          git add releases/v${{ steps.next_tag.outputs.version }}/*
+          git add releases/v${{ steps.trim_tag.outputs.trimmed_tag }}/*
           git commit -a -m 'Updating release'
           git push origin master
           git tag ${{ steps.next_tag.outputs.version }}
