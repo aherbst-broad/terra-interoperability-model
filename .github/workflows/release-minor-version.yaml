@@ -31,8 +31,10 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Update release dir and push tag
         run: |
-          cp -R src/imports releases/v${{ steps.parse_current_tag.outputs.major }}
-          cp -R src/terra-core releases/v${{ steps.parse_current_tag.outputs.major }}
+          rsync -avu --delete "src/imports" "releases/v${{ steps.parse_current_tag.outputs.major }}"
+#          cp -R src/imports releases/v${{ steps.parse_current_tag.outputs.major }}
+#          cp -R src/terra-core releases/v${{ steps.parse_current_tag.outputs.major }}
+          rsync -avu --delete "src/terra-core" "releases/v${{ steps.parse_current_tag.outputs.major }}"
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add .
