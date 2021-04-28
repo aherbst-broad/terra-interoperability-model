@@ -9,7 +9,7 @@
 # prefix: TerraCore
 
 
-### TESTING
+### TESTING2
 
 @prefix : <https://datamodel.terra.bio/TerraCore#> .
 @prefix NCBITaxon_Organisms: <https://datamodel.terra.bio/NCBITaxon_Organisms_subset#> .
