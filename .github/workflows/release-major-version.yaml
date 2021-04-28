@@ -37,8 +37,8 @@ jobs:
       - name: Update release dir and push tag
         run: |
           mkdir releases/v${{ steps.trim_tag.outputs.trimmed_tag }}
-          cp -R src/imports releases/v${{ steps.trim_tag.outputs.trimmed_tag }}
-          cp -R src/terra-core releases/v${{ steps.trim_tag.outputs.trimmed_tag }}
+          rsync -avu --delete "src/imports" "releases/v${{ steps.trim_tag.outputs.trimmed_tag }}"
+          rsync -avu --delete "src/terra-core" "releases/v${{ steps.trim_tag.outputs.trimmed_tag }}"
           git config user.name "TIM Release Bot"
           git config user.email "<>"
           git add releases/v${{ steps.trim_tag.outputs.trimmed_tag }}/*
