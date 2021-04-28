@@ -8,6 +8,9 @@
 # imports: https://datamodel.terra.bio/TerraDCAT_ap
 # prefix: TerraCore
 
+
+### TESTING
+
 @prefix : <https://datamodel.terra.bio/TerraCore#> .
 @prefix NCBITaxon_Organisms: <https://datamodel.terra.bio/NCBITaxon_Organisms_subset#> .
 @prefix OBI_assaySubset: <https://datamodel.terra.bio/OBI_assaySubset#> .
